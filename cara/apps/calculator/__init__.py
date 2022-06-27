@@ -22,7 +22,7 @@ import tornado.log
 
 from . import markdown_tools
 from . import model_generator
-from .report_generator import ReportGenerator, calculate_report_data
+from .report_generator import ReportGenerator, calculate_report_data, calculate_report_data_minimal
 from .user import AuthenticatedUser, AnonymousUser
 
 # The calculator version is based on a combination of the model version and the
@@ -161,7 +161,8 @@ class ConcentrationModelJsonResponse(BaseRequestHandler):
             max_workers=self.settings['handler_worker_pool_size'],
             timeout=300,
         )
-        report_data_task = executor.submit(calculate_report_data, form, form.build_model())
+        //report_data_task = executor.submit(calculate_report_data, form, form.build_model())
+        report_data_task = executor.submit(calculate_report_data_minimal, form, form.build_model())
         report_data: dict = await asyncio.wrap_future(report_data_task)
         await self.finish(report_data)
 
