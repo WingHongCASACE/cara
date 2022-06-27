@@ -151,6 +151,19 @@ def calculate_report_data(form: FormData, model: models.ExposureModel) -> typing
         "expected_new_cases": expected_new_cases,
     }
 
+def calculate_report_data_minimal(form: FormData, model: models.ExposureModel) -> typing.Dict[str, typing.Any]:
+
+    prob = np.array(model.infection_probability()).mean()
+    er = np.array(model.concentration_model.infected.emission_rate_when_present()).mean()
+    exposed_occupants = model.exposed.number
+    expected_new_cases = np.array(model.expected_new_cases()).mean()
+
+    return {
+        "prob_inf": prob,
+        "emission_rate": er,
+        "exposed_occupants": exposed_occupants,
+        "expected_new_cases": expected_new_cases,
+    }
 
 def generate_permalink(base_url, calculator_prefix, form: FormData):
     form_dict = FormData.to_dict(form, strip_defaults=True)
