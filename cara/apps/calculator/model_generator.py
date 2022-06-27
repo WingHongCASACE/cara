@@ -355,6 +355,8 @@ class FormData:
 
         elif self.ventilation_type == "no_ventilation":
             ventilation = models.AirChange(active=always_on, air_exch=0.)
+        elif self.ventilation_type == "measured_ventilation":
+            ventilation = models.AirChange(active=always_on, air_exch=self.air_changes-0.25 if self.air_changes > 0.25 else 0.0) # There is always a base level of infiltration ventilation of 0.25 present
         else:
             if self.mechanical_ventilation_type == 'mech_type_air_changes':
                 ventilation = models.AirChange(active=always_on, air_exch=self.air_changes)
@@ -732,7 +734,7 @@ ACTIVITY_TYPES = {'office', 'smallmeeting', 'largemeeting', 'training', 'callcen
 MECHANICAL_VENTILATION_TYPES = {'mech_type_air_changes', 'mech_type_air_supply', 'not-applicable'}
 MASK_TYPES = {'Type I', 'FFP2'}
 MASK_WEARING_OPTIONS = {'mask_on', 'mask_off'}
-VENTILATION_TYPES = {'natural_ventilation', 'mechanical_ventilation', 'no_ventilation'}
+VENTILATION_TYPES = {'natural_ventilation', 'mechanical_ventilation', 'no_ventilation', 'measured_ventilation'}
 VIRUS_TYPES = {'SARS_CoV_2', 'SARS_CoV_2_ALPHA', 'SARS_CoV_2_BETA','SARS_CoV_2_GAMMA', 'SARS_CoV_2_DELTA', 'SARS_CoV_2_OMICRON'}
 VOLUME_TYPES = {'room_volume_explicit', 'room_volume_from_dimensions'}
 WINDOWS_OPENING_REGIMES = {'windows_open_permanently', 'windows_open_periodically', 'not-applicable'}
