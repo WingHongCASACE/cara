@@ -161,7 +161,7 @@ class ConcentrationModelJsonResponse(BaseRequestHandler):
             max_workers=self.settings['handler_worker_pool_size'],
             timeout=300,
         )
-        //report_data_task = executor.submit(calculate_report_data, form, form.build_model())
+        #report_data_task = executor.submit(calculate_report_data, form, form.build_model())
         report_data_task = executor.submit(calculate_report_data_minimal, form, form.build_model())
         report_data: dict = await asyncio.wrap_future(report_data_task)
         await self.finish(report_data)
